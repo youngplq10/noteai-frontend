@@ -3,7 +3,7 @@
 import axios from "axios"
 import { setAuthToken } from "./server"
 
-export const createUser = async (username: string, email: string, password: string, newsletter: boolean) => {
+export const createUser = async (username: string, email: string, password: string, newsletter: boolean) : Promise<boolean> => {
     try {
         const res = await axios.post(process.env.NEXT_PUBLIC_API + "/public/register", {
             username: username,
@@ -16,13 +16,18 @@ export const createUser = async (username: string, email: string, password: stri
             }
         })
 
-        setAuthToken(res.data)
+        if (res.data !== "Failed") {
+            setAuthToken(res.data);
+            return true;
+        } else {
+            return false;
+        }
     } catch {
-        throw new Error("error in creating user")
+        return false;
     }
 }
 
-export const loginUser = async (username: string, password: string) => {
+export const loginUser = async (username: string, password: string) : Promise<boolean> => {
     try {
         const res = await axios.post(process.env.NEXT_PUBLIC_API + "/public/login", {
             username: username,
@@ -33,8 +38,13 @@ export const loginUser = async (username: string, password: string) => {
             }
         })
 
-        setAuthToken(res.data)
+        if (res.data !== "Failed") {
+            setAuthToken(res.data);
+            return true;
+        } else {
+            return false;
+        }
     } catch {
-        throw new Error("error in logging in user")
+        return false;
     }
 }

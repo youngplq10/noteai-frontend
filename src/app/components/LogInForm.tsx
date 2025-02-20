@@ -13,12 +13,18 @@ const LogInForm = () => {
     const [errorMessage, setErrorMesssage] = useState("");
     const [errorState, setErrorState] = useState(true);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const res = validateExistingUser(username, password);
 
         if (res==="Success") {
             setErrorState(true);
-            loginUser(username, password);
+            const resLogin = await loginUser(username, password);
+            if (resLogin === false) {
+                setErrorMesssage("Failed. Please try again.");
+                setErrorState(false);
+            } else {
+                window.location.href = "/dashboard"
+            }
         }
         else {
             setErrorMesssage(res);

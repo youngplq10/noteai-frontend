@@ -16,12 +16,18 @@ const SignUpForm = () => {
     const [errorMessage, setErrorMesssage] = useState("");
     const [errorState, setErrorState] = useState(true);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const res = validateNewUser(username, email, password, repassword);
 
         if (res==="Success") {
             setErrorState(true)
-            createUser(username, email, password, newsletter)
+            const resCreating = await createUser(username, email, password, newsletter)
+            if (resCreating === false) {
+                setErrorMesssage("Failed. Please try again.");
+                setErrorState(false);
+            } else {
+                window.location.href = "/dashboard"
+            }
         }
         else {
             setErrorMesssage(res);
