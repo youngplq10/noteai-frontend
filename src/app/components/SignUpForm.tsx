@@ -3,6 +3,8 @@
 import { Alert, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { validateNewUser } from '../scripts/validation';
+import Link from 'next/link';
+import { createUser } from '../scripts/apicalls';
 
 const SignUpForm = () => {
     const [username, setUsername] = useState("");
@@ -19,7 +21,7 @@ const SignUpForm = () => {
 
         if (res==="Success") {
             setErrorState(true)
-            //process creating new account
+            createUser(username, email, password, newsletter)
         }
         else {
             setErrorMesssage(res);
@@ -45,7 +47,8 @@ const SignUpForm = () => {
                 <label htmlFor='newsletter' className='form-label'><Typography variant='body1' color='textPrimary'>Newsletter</Typography></label>
                 <input type='checkbox' id='newsletter' value="aa" className='mx-2' checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
             </form>
-            <Button variant='contained' onClick={handleSubmit}>Create account</Button>
+            <Button variant='contained' className='my-2' onClick={handleSubmit}>Create account</Button>
+            <Typography variant='body1' color='textPrimary'>You already have an account? <Link href="/log-in">Log in now!</Link></Typography>
 
             <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>
         </>
