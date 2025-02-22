@@ -3,7 +3,7 @@
 import { Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { tag } from '../scripts/interfaces'
-import { fetchTagsAllTagsByUsername, removeTagByName } from '../scripts/apicalls'
+import { createTag, fetchTagsAllTagsByUsername, removeTagByName } from '../scripts/apicalls'
 
 const CreateTagSection = () => {
     const [tags, setTags] = useState<tag[]>([]);
@@ -24,6 +24,12 @@ const CreateTagSection = () => {
         removeTagByName(name);
     }
 
+    const handleCreateTag = async () => {
+        const newTag = await createTag(name);
+        setTags([...tags, newTag]);
+        setName("");
+    }
+
     return (
         <div className='container-lg my-5'>
             <div className="row my-5">
@@ -40,7 +46,7 @@ const CreateTagSection = () => {
                         <label htmlFor='name' className='form-label'><Typography variant='body1' color='textPrimary'>Name of tag</Typography></label>
                         <input type='text' className='form-control' id='name' value={name} onChange={(e) => setName(e.target.value)} />
 
-                        <Button variant='contained' className='my-2'>Create tag</Button>
+                        <Button variant='contained' className='my-2' onClick={handleCreateTag}>Create tag</Button>
                     </form>
                 </div>
             </div>

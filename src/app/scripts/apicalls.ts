@@ -77,8 +77,30 @@ export const removeTagByName = async (name: string) : Promise<void> => {
                 'Authorization': 'Bearer ' + jwt?.value,
             }
         })
-        
+
     } catch {
         throw new Error("error in deleting tag")
+    }
+}
+
+export const createTag = async (name: string) : Promise<tag> => {
+    try {
+        const { username, jwt } = await getAllCookies();
+
+        const res = await axios.post(process.env.NEXT_PUBLIC_API + "/auth/tag", {
+            username: username?.value,
+            name: name,
+        }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        console.log(res)
+
+        return res.data as tag
+    } catch {
+        throw new Error("failed creating tag")
     }
 }
