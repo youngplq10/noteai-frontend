@@ -1,9 +1,9 @@
 "use client"
 
-import { Button, Chip, Stack, Typography } from '@mui/material'
+import { Alert, Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { tag } from '../scripts/interfaces';
-import { fetchTagsAllTagsByUsername } from '../scripts/apicalls';
+import { createdNoteByAI, fetchTagsAllTagsByUsername } from '../scripts/apicalls';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -11,6 +11,10 @@ const CreateNoteSection = () => {
     const [note, setNote] = useState("");
     const [usersTags, setUsersTags] = useState<tag[]>([]);
     const [selectedTags, setSelectedTags] = useState<tag[]>([]);
+    const [used, setUsed] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorState, setErrorState] = useState(true);
 
     useEffect(() => {
         const fetchUsersTags = async () => {
@@ -27,7 +31,7 @@ const CreateNoteSection = () => {
             setSelectedTags([...selectedTags, tag]);
 
             const updatedUsersTags = usersTags.filter(tag => tag.name !== name);
-            setUsersTags(updatedUsersTags)
+            setUsersTags(updatedUsersTags);
         }
     }
 
@@ -38,6 +42,17 @@ const CreateNoteSection = () => {
 
             const updatedSelectedTags = selectedTags.filter(tag => tag.name !== name);
             setSelectedTags(updatedSelectedTags);
+        }
+    }
+
+    const handleCreateNoteByAI = async () => {
+        if (!used) {
+            const res = await createdNoteByAI(note);
+            setNote(res);
+            setUsed(true);
+        } else {
+            setErrorMessage("You already generated note by AI.");
+            setErrorState(false);
         }
     }
 
@@ -62,8 +77,10 @@ const CreateNoteSection = () => {
                             )) }
                         </Stack>
 
-                        <Button variant='contained' className='my-2 me-2'>Create note</Button>
-                        <Button variant='contained' className='my-2 me-2'>Create note by AI</Button>
+                        <Button variant='contained' className='my-2 me-2'>Save note</Button>
+                        <Button variant='contained' className='my-2 me-2' onClick={handleCreateNoteByAI}>Create note by AI</Button>
+
+                        <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>
                     </form>
                 </div>
             </div>

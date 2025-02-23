@@ -3,6 +3,9 @@
 import axios from "axios"
 import { getAllCookies, setAuthToken } from "./server"
 import { tag } from "./interfaces"
+import OpenAI from "openai";
+
+const openai = new OpenAI({ apiKey: process.env.NEXT_PRIVATE_OPENAI_API_KEY });
 
 export const createUser = async (username: string, email: string, password: string, newsletter: boolean) : Promise<boolean> => {
     try {
@@ -102,5 +105,26 @@ export const createTag = async (name: string) : Promise<tag> => {
         return res.data as tag
     } catch {
         throw new Error("failed creating tag")
+    }
+}
+
+export const createdNoteByAI = async (note: string) : Promise<string> => {
+    try {
+        const res = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                { role: "developer", content: "Write note about user's criterias. Maximum 200 words." },
+                { role: "user", content: note },
+            ],
+            store: true,
+        })
+
+        if (typeof res.choices[0].message.content === "string") {
+            return res.choices[0].message.content
+        } else {
+            return "Failed. Please try again."
+        }
+    } catch (error: any) {
+        throw new Error(error.message)
     }
 }
