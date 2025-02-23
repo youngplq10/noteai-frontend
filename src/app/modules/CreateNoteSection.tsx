@@ -3,7 +3,7 @@
 import { Alert, Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { tag } from '../scripts/interfaces';
-import { createdNoteByAI, fetchTagsAllTagsByUsername } from '../scripts/apicalls';
+import { createdNoteByAI, fetchTagsAllTagsByUsername, saveNote } from '../scripts/apicalls';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -15,6 +15,8 @@ const CreateNoteSection = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [errorState, setErrorState] = useState(true);
+
+    const [loadingState, setLoadingState] = useState(false);
 
     useEffect(() => {
         const fetchUsersTags = async () => {
@@ -47,12 +49,29 @@ const CreateNoteSection = () => {
 
     const handleCreateNoteByAI = async () => {
         if (!used) {
-            const res = await createdNoteByAI(note);
-            setNote(res);
-            setUsed(true);
+            if (note.length < 10) {
+                setErrorMessage("Minimum length of note to ask AI for help is 10 characters.");
+                setErrorState(false);
+            } else {
+                setLoadingState(true);
+                const res = await createdNoteByAI(note);
+                setNote(res);
+                setUsed(true);
+                setLoadingState(false);
+            }
         } else {
             setErrorMessage("You already generated note by AI.");
             setErrorState(false);
+        }
+    }
+
+    const handleSaveNote = async () => {
+        if (note.length < 2) {
+            setErrorMessage("Minimum length of note to ask AI for help is 2 characters.");
+            setErrorState(false);
+        } else {
+            const link = await saveNote(note, selectedTags.map((tag) => tag.name))
+            window.location.href = "/dashboard/note/" + link
         }
     }
 
@@ -61,7 +80,7 @@ const CreateNoteSection = () => {
             <div className="row justify-content-center">
                 <div className="col-10 col-md-8 col-xl-6">
                     <form>
-                        <textarea placeholder='Write your note / Write what do you want to be your note about?' className='form-control' id='note' style={{ resize: "none" }} value={note} onChange={(e) => setNote(e.target.value)} rows={8} />
+                        <textarea disabled={loadingState} placeholder='Write your note / Write what do you want to be your note about?' className='form-control' id='note' style={{ resize: "none" }} value={loadingState ? "Loading..." : note} onChange={(e) => setNote(e.target.value)} rows={8} />
                         
                         <Typography variant='h6' className='mt-2'>Select tags:</Typography>
                         <Stack direction="row" spacing={1}>
@@ -77,7 +96,7 @@ const CreateNoteSection = () => {
                             )) }
                         </Stack>
 
-                        <Button variant='contained' className='my-2 me-2'>Save note</Button>
+                        <Button variant='contained' className='my-2 me-2' onClick={handleSaveNote}>Save note</Button>
                         <Button variant='contained' className='my-2 me-2' onClick={handleCreateNoteByAI}>Create note by AI</Button>
 
                         <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>

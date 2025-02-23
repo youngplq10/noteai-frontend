@@ -113,10 +113,10 @@ export const createdNoteByAI = async (note: string) : Promise<string> => {
         const res = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
-                { role: "developer", content: "Write note about user's criterias. Maximum 200 words." },
+                { role: "developer", content: "Write note about user's criterias. Maximum 200 words. Don't comment. Just give the answer" },
                 { role: "user", content: note },
             ],
-            store: true,
+            store: false,
         })
 
         if (typeof res.choices[0].message.content === "string") {
@@ -126,5 +126,25 @@ export const createdNoteByAI = async (note: string) : Promise<string> => {
         }
     } catch (error: any) {
         throw new Error(error.message)
+    }
+}
+
+export const saveNote = async (content: string, tags: string[]) : Promise<string> => {
+    try {
+        const { username, jwt } = await getAllCookies();
+
+        const res = await axios.post(process.env.NEXT_PUBLIC_API + "/auth/note", {
+            username: username?.value,
+            content: content,
+            tags: tags
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        return res.data
+    } catch {
+        throw new Error("failed saving note")
     }
 }
