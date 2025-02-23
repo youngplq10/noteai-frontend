@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { getAllCookies, setAuthToken } from "./server"
-import { tag } from "./interfaces"
+import { note, tag } from "./interfaces"
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.NEXT_PRIVATE_OPENAI_API_KEY });
@@ -129,6 +129,41 @@ export const createdNoteByAI = async (note: string) : Promise<string> => {
     }
 }
 
+export const generateSummary = async (note: string, link: string) : Promise<string> => {
+    try {
+        const { jwt } = await getAllCookies();
+
+        const res = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {role: "developer", content: "Write summary of this note. Give just summary. No comments."},
+                {role: "user", content: note},
+            ],
+            store: false,
+        })
+
+        if (typeof res.choices[0].message.content === "string") {
+
+            const formData = new FormData();
+            formData.append("link", link);
+            formData.append("summary", res.choices[0].message.content)
+
+            await axios.post(process.env.NEXT_PUBLIC_API + "/auth/note/summary", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + jwt?.value,
+                }
+            })
+
+            return res.choices[0].message.content
+        } else {
+            return "Failed. Please try again."
+        }
+    } catch (error: any) {
+        throw new Error(error.message)
+    }
+}
+
 export const saveNote = async (content: string, tags: string[]) : Promise<string> => {
     try {
         const { username, jwt } = await getAllCookies();
@@ -146,5 +181,21 @@ export const saveNote = async (content: string, tags: string[]) : Promise<string
         return res.data
     } catch {
         throw new Error("failed saving note")
+    }
+}
+
+export const getNoteByLink = async (link: string) : Promise<note> => {
+    try {
+        const { jwt } = await getAllCookies();
+
+        const res = await axios.get(process.env.NEXT_PUBLIC_API + "/auth/note/" + link, {
+            headers: {
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        return res.data as note
+    } catch {
+        throw new Error("error in fetching note")
     }
 }
