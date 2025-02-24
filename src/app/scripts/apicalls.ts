@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { getAllCookies, setAuthToken } from "./server"
-import { note, tag } from "./interfaces"
+import { note, tag, user } from "./interfaces"
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.NEXT_PRIVATE_OPENAI_API_KEY });
@@ -197,5 +197,23 @@ export const getNoteByLink = async (link: string) : Promise<note> => {
         return res.data as note
     } catch {
         throw new Error("error in fetching note")
+    }
+}
+
+export const getUserData = async () : Promise<user> => {
+    try {
+        const { username, jwt } = await getAllCookies();
+
+        const res = await axios.get(process.env.NEXT_PUBLIC_API + "/auth/user/" + username?.value, {
+            headers: {
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        console.log(res)
+
+        return res.data as user
+    } catch (error: any) {
+        throw new Error(error.message)
     }
 }
