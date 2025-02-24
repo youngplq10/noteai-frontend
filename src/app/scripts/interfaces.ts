@@ -31,7 +31,8 @@ export interface note {
     summary: string,
     tags: tag[],
     createdAtDate: Date,
-    mindMap: mindMap
+    mindMap: mindMap,
+    link: string,
 }
 
 export interface mindMap {

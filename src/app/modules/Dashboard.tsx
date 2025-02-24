@@ -5,15 +5,17 @@ import React, { useEffect, useState } from 'react'
 import { user } from '../scripts/interfaces'
 import { getUserData } from '../scripts/apicalls';
 import NoteCard from '../components/NoteCard';
+import Loading from '../components/Loading';
 
 const Dashboard = () => {
     const [user, setUser] = useState<user>();
+    const [loadingNotes, setLoadingNotes] = useState(true);
 
     useEffect(() => {
         const fetchUserData = async () => {
             const res = await getUserData();
             setUser(res);
-            console.log(res);
+            setLoadingNotes(false);
         }
         fetchUserData();
     }, [])
@@ -34,9 +36,17 @@ const Dashboard = () => {
             </div>
 
             <div className="row">
-                <div className="col-3">
-                    <NoteCard />
-                </div>
+                { loadingNotes ? (
+                    <div className="col-12 my-3" style={{ minHeight: 200 }}>
+                        <Loading />
+                    </div>
+                ) : (
+                    user?.notes.map((note, index) => (
+                        <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-3" key={index}>
+                            <NoteCard tags={note.tags} content={note.content} link={note.link} />
+                        </div>
+                    ))
+                ) }
             </div>
         </div>
     )

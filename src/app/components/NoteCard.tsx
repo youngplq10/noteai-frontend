@@ -1,18 +1,27 @@
 import { Button, Card, CardContent, Chip, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { tag } from '../scripts/interfaces'
+import Link from 'next/link'
 
-const NoteCard = () => {
+const NoteCard = ({ tags, content, link } : { tags: tag[], content: string, link: string }) => {
     return (
-        <Card variant='outlined' className='my-3'>
-            <CardContent>
-                <Stack direction="row" spacing={1} className='my-2'>
-                    <Chip label="Math" variant='outlined' color='primary' />
-                    <Chip label="Spanish" variant='outlined' color='primary' />
-                </Stack>
-                <Typography variant='subtitle1'>User's criteria for creating a note about math include a focus on clarity and conciseness, ensuring that complex concepts are broken down into understandable components. The note should cover fundamental mathematical principles, potentially highlighting key topics such as algebra, geometry, calculus, and statistics.</Typography>
-                <Button variant="contained" href='/dashboard/note/note_id' className='my-2'>View note</Button>
-            </CardContent>
-        </Card>
+        <Link href={'/dashboard/note/' + link} className='text-decoration-none'>
+            <Card variant='outlined' className='my-3' style={{ minHeight: 200 }}>
+                <CardContent>
+                    <Stack direction="row" spacing={1} className='my-2'>
+                        { tags.map((tag, index) => (
+                            <Chip label={tag.name} variant='outlined' color='primary' key={index} />
+                        )) }
+                    </Stack>
+                    <Typography variant='subtitle1'>{ content.length < 150 ? (
+                        content
+                    ) : (
+                        content.slice(0, 150) + "..." 
+                    ) }</Typography>
+                    
+                </CardContent>
+            </Card>
+        </Link>
     )
 }
 

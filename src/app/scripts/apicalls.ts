@@ -136,7 +136,7 @@ export const generateSummary = async (note: string, link: string) : Promise<stri
         const res = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
-                {role: "developer", content: "Write summary of this note. Give just summary. No comments."},
+                {role: "developer", content: "Write summary of this note. Give just summary. No comments. Short the note at least about a half."},
                 {role: "user", content: note},
             ],
             store: false,
