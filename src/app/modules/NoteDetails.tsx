@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { note } from '../scripts/interfaces';
-import { generateSummary, getNoteByLink } from '../scripts/apicalls';
+import { note } from '@/app/scripts/interfaces';
+import { generateSummary, getNoteByLink } from '@/app/scripts/apicalls';
 import { Button, Chip, Stack, Typography } from '@mui/material';
 
 const NoteDetails = () => {
@@ -23,7 +23,7 @@ const NoteDetails = () => {
             }
         }
         fetchNote()
-    }, [])
+    }, [note_id])
 
     const handleGenerateSummary = async () => {
         if (typeof note?.content === "string" && typeof note_id === "string") {

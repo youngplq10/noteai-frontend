@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../modules/Navbar'
-import LogInSection from '../modules/LogInSection'
+import Navbar from '@/app/modules/Navbar'
+import LogInSection from '@/app/modules/LogInSection'
 
 const page = () => {
     return (

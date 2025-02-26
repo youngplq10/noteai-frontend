@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { getAllCookies, setAuthToken } from "./server"
-import { note, tag, user } from "./interfaces"
+import { note, tag, user } from "@/app/scripts/interfaces"
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.NEXT_PRIVATE_OPENAI_API_KEY });
@@ -124,8 +124,8 @@ export const createdNoteByAI = async (note: string) : Promise<string> => {
         } else {
             return "Failed. Please try again."
         }
-    } catch (error: any) {
-        throw new Error(error.message)
+    } catch {
+        return "Failed. Please try again."
     }
 }
 
@@ -159,8 +159,8 @@ export const generateSummary = async (note: string, link: string) : Promise<stri
         } else {
             return "Failed. Please try again."
         }
-    } catch (error: any) {
-        throw new Error(error.message)
+    } catch {
+        return "Failed. Please try again."
     }
 }
 
@@ -213,8 +213,8 @@ export const getUserData = async () : Promise<user> => {
         console.log(res)
 
         return res.data as user
-    } catch (error: any) {
-        throw new Error(error.message)
+    } catch {
+        throw new Error("error in getting user data")
     }
 }
 

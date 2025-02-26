@@ -1,6 +1,5 @@
-import { Button, Typography } from "@mui/material"
-import Hero from "./modules/Hero"
-import Navbar from "./modules/Navbar"
+import Hero from "@/app/modules/Hero"
+import Navbar from "@/app/modules/Navbar"
 
 const Home = () => {
   return (

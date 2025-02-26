@@ -1,6 +1,6 @@
-import { Button, Card, CardContent, Chip, Stack, Typography } from '@mui/material'
+import { Card, CardContent, Chip, Stack, Typography } from '@mui/material'
 import React from 'react'
-import { tag } from '../scripts/interfaces'
+import { tag } from '@/app/scripts/interfaces'
 import Link from 'next/link'
 
 const NoteCard = ({ tags, content, link } : { tags: tag[], content: string, link: string }) => {

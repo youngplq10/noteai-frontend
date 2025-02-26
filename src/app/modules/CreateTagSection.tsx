@@ -2,8 +2,8 @@
 
 import { Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { tag } from '../scripts/interfaces'
-import { createTag, fetchTagsAllTagsByUsername, removeTagByName } from '../scripts/apicalls'
+import { tag } from '@/app/scripts/interfaces'
+import { createTag, fetchTagsAllTagsByUsername, removeTagByName } from '@/app/scripts/apicalls'
 
 const CreateTagSection = () => {
     const [tags, setTags] = useState<tag[]>([]);

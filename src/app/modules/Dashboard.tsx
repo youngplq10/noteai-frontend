@@ -1,11 +1,11 @@
 "use client"
 
-import { Button, Card } from '@mui/material'
+import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { user } from '../scripts/interfaces'
-import { copyNote, getUserData } from '../scripts/apicalls';
-import NoteCard from '../components/NoteCard';
-import Loading from '../components/Loading';
+import { user } from '@/app/scripts/interfaces'
+import { copyNote, getUserData } from '@/app/scripts/apicalls';
+import NoteCard from '@/app/components/NoteCard';
+import Loading from '@/app/components/Loading';
 
 const Dashboard = () => {
     const [user, setUser] = useState<user>();

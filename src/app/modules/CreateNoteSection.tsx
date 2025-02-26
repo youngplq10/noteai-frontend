@@ -2,8 +2,8 @@
 
 import { Alert, Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { tag } from '../scripts/interfaces';
-import { createdNoteByAI, fetchTagsAllTagsByUsername, saveNote } from '../scripts/apicalls';
+import { tag } from '@/app/scripts/interfaces';
+import { createdNoteByAI, fetchTagsAllTagsByUsername, saveNote } from '@/app/scripts/apicalls';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 

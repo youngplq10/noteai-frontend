@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../modules/Navbar'
-import SignUpSection from '../modules/SignUpSection'
+import Navbar from '@/app/modules/Navbar'
+import SignUpSection from '@/app/modules/SignUpSection'
 
 const page = () => {
     return (

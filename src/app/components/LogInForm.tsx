@@ -2,9 +2,9 @@
 
 import { Alert, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { validateExistingUser, validateNewUser } from '../scripts/validation';
+import { validateExistingUser } from '@/app/scripts/validation';
 import Link from 'next/link';
-import { loginUser } from '../scripts/apicalls';
+import { loginUser } from '@/app/scripts/apicalls';
 
 const LogInForm = () => {
     const [username, setUsername] = useState("");
@@ -42,7 +42,7 @@ const LogInForm = () => {
                 <input type='password' className='form-control' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
             </form>
             <Button variant='contained' className='my-2' onClick={handleSubmit}>Create account</Button>
-            <Typography variant='body1' color='textPrimary'>You don't have an account? <Link href="/sign-up">Create one now!</Link></Typography>
+            <Typography variant='body1' color='textPrimary'>You dont have an account? <Link href="/sign-up">Create one now!</Link></Typography>
 
             <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>
         </>

@@ -3,7 +3,7 @@
 import { Box, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import Loading from './Loading';
+import Loading from '@/app/components/Loading';
 
 const Navigation = ({ isAuth, isLoading } : { isAuth: boolean, isLoading: boolean }) => {
     return (

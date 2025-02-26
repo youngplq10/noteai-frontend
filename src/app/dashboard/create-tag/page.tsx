@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../../modules/Navbar'
+import Navbar from '@/app/modules/Navbar'
 import CreateTagSection from '@/app/modules/CreateTagSection'
 
 const page = () => {

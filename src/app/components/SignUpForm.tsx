@@ -2,9 +2,9 @@
 
 import { Alert, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { validateNewUser } from '../scripts/validation';
+import { validateNewUser } from '@/app/scripts/validation';
 import Link from 'next/link';
-import { createUser } from '../scripts/apicalls';
+import { createUser } from '@/app/scripts/apicalls';
 
 const SignUpForm = () => {
     const [username, setUsername] = useState("");

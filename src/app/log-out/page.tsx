@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../modules/Navbar'
-import LogoutSection from '../modules/LogoutSection'
+import Navbar from '@/app/modules/Navbar'
+import LogoutSection from '@/app/modules/LogoutSection'
 
 const page = () => {
     return (

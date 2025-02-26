@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/globals.scss";
 import { ThemeProvider } from "@mui/material";
-import { theme } from "./themes/theme";
+import { theme } from "@/app/themes/theme";
 
 export const metadata: Metadata = {
   title: "NoteAI - powered by OpenAI",
