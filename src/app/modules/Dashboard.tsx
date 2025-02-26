@@ -3,13 +3,15 @@
 import { Button, Card } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { user } from '../scripts/interfaces'
-import { getUserData } from '../scripts/apicalls';
+import { copyNote, getUserData } from '../scripts/apicalls';
 import NoteCard from '../components/NoteCard';
 import Loading from '../components/Loading';
 
 const Dashboard = () => {
     const [user, setUser] = useState<user>();
     const [loadingNotes, setLoadingNotes] = useState(true);
+
+    const [noteCode, setNoteCode] = useState("");
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -19,6 +21,14 @@ const Dashboard = () => {
         }
         fetchUserData();
     }, [])
+
+    const handleSubmitCode = async () => {
+        const res = await copyNote(noteCode);
+
+        if (res.length === 15) {
+            window.location.href = "/dashboard/note/" + res;
+        }
+    }
 
     return (
         <div className='container-lg my-5'>
@@ -30,8 +40,8 @@ const Dashboard = () => {
                     <Button variant='contained' href='/dashboard/create-tag'>Create tag</Button>
                 </div>
                 <div className="col-12 col-md-auto ms-auto d-flex gap-2 my-2">
-                    <input type='text' placeholder='Enter note code' className='form-control' />
-                    <Button variant='contained'>Submit</Button>
+                    <input type='text' placeholder='Enter note code' className='form-control' value={noteCode} onChange={(e) => setNoteCode(e.target.value)} />
+                    <Button variant='contained' onClick={handleSubmitCode}>Submit</Button>
                 </div>
             </div>
 

@@ -217,3 +217,22 @@ export const getUserData = async () : Promise<user> => {
         throw new Error(error.message)
     }
 }
+
+export const copyNote = async (code: string) : Promise<string> => {
+    try {
+        const { username, jwt } = await getAllCookies();
+
+        const res = await axios.post(process.env.NEXT_PUBLIC_API + "/auth/note/" + code, {
+            username: username?.value,
+        }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        return res.data
+    } catch {
+        throw new Error("error in copying code")
+    }
+}

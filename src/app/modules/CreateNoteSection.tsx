@@ -80,7 +80,7 @@ const CreateNoteSection = () => {
             <div className="row justify-content-center">
                 <div className="col-10 col-md-8 col-xl-6">
                     <form>
-                        <textarea disabled={loadingState} placeholder='Write your note / Write what do you want to be your note about?' className='form-control' id='note' style={{ resize: "none" }} value={loadingState ? "Loading..." : note} onChange={(e) => setNote(e.target.value)} rows={8} />
+                        <textarea disabled={loadingState} maxLength={4000} placeholder='Write your note / Write what do you want to be your note about?' className='form-control' id='note' style={{ resize: "none" }} value={loadingState ? "Loading..." : note} onChange={(e) => setNote(e.target.value)} rows={8} />
                         
                         <Typography variant='h6' className='mt-2'>Select tags:</Typography>
                         <Stack direction="row" spacing={1}>

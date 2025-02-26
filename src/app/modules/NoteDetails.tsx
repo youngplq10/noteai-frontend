@@ -36,7 +36,7 @@ const NoteDetails = () => {
     return (
         <div className='container-lg my-5'>
             <div className="row my-2">
-                <div className="col-10 col-md-6">
+                <div className="col-12">
                     <Stack direction="row" spacing={1}>
                         { note?.tags.map((tag, index) => (
                             <Chip key={index} label={tag.name} color="primary" variant="outlined" className='mt-1' />
@@ -46,14 +46,21 @@ const NoteDetails = () => {
             </div>
 
             <div className="row my-2">
-                <div className="col-12 col-md-8">
+                <div className="col-12 ms-auto my-auto">
+                    <Typography variant='body1'>Share your notes by sharing this code:</Typography>
+                    <Typography variant='body1' className='text-decoration-underline'> { note?.link } </Typography>
+                </div>
+            </div>
+
+            <div className="row my-2">
+                <div className="col-12 col-md-12">
                     <Typography variant='h4' className='my-2'> Note </Typography>
                     <Typography variant='body1'> { note?.content } </Typography>
                 </div>
             </div>
  
             <div className="row my-2">
-                <div className="col-12 col-md-8">
+                <div className="col-12 col-md-12">
                     <Typography variant='h4' className='my-2'> Summary </Typography>
                     { note?.summary === null && summary === "" ? (
                         <Button disabled={generateSummaryButtonState} variant='contained' onClick={handleGenerateSummary}>Generate summary</Button>
