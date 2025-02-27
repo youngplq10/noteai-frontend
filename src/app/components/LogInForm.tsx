@@ -41,7 +41,7 @@ const LogInForm = () => {
                 <label htmlFor='password' className='form-label'><Typography variant='body1' color='textPrimary'>Password</Typography></label>
                 <input type='password' className='form-control' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
             </form>
-            <Button variant='contained' className='my-2' onClick={handleSubmit}>Create account</Button>
+            <Button variant='contained' className='my-2' onClick={handleSubmit}>Log in</Button>
             <Typography variant='body1' color='textPrimary'>You dont have an account? <Link href="/sign-up">Create one now!</Link></Typography>
 
             <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>

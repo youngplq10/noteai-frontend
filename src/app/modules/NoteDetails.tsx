@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { note } from '@/app/scripts/interfaces';
-import { generateSummary, getNoteByLink } from '@/app/scripts/apicalls';
-import { Button, Chip, Stack, Typography } from '@mui/material';
+import { deleteNote, generateSummary, getNoteByLink } from '@/app/scripts/apicalls';
+import { Alert, Button, Chip, Stack, Typography } from '@mui/material';
 
 const NoteDetails = () => {
     const params = useParams();
@@ -14,6 +14,9 @@ const NoteDetails = () => {
     const [summary, setSummary] = useState("");
 
     const [generateSummaryButtonState, setGenerateSummaryButtonState] = useState(false);
+
+    const [errorState, setErrorState] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         const fetchNote = async () => {
@@ -30,6 +33,19 @@ const NoteDetails = () => {
             setGenerateSummaryButtonState(true);
             const res = await generateSummary(note?.content, note_id);
             setSummary(res)
+        }
+    }
+
+    const handleDeleteNote = async () => {
+        if (typeof note?.link === "string") {
+            const res = await deleteNote(note?.link);
+
+            if (res === true) {
+                window.location.href = "/dashboard";
+            } else {
+                setErrorState(false);
+                setErrorMessage("Failed. Please try again.");
+            }
         }
     }
 
@@ -71,6 +87,18 @@ const NoteDetails = () => {
                             <Typography variant='body1'>{ note?.summary }</Typography>
                         )
                     ) }
+                </div>
+            </div>
+
+            <div className="row my-2">
+                <div className="col-12">
+                    <Button variant='contained' color="error" onClick={handleDeleteNote}>Delete note</Button>
+                </div>
+            </div>
+
+            <div className="row my-2">
+                <div className="col-12">
+                    <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>
                 </div>
             </div>
         </div>

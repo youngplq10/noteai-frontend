@@ -236,3 +236,19 @@ export const copyNote = async (code: string) : Promise<string> => {
         throw new Error("error in copying code")
     }
 }
+
+export const deleteNote = async (code: string) : Promise<boolean> => {
+    try {
+        const { jwt } = await getAllCookies();
+
+        const res = await axios.delete(process.env.NEXT_PUBLIC_API + "/auth/note/" + code, {
+            headers: {
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        return res.data;
+    } catch {
+        return false;
+    }
+}
