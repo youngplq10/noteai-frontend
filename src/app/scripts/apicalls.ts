@@ -100,8 +100,6 @@ export const createTag = async (name: string) : Promise<tag> => {
             }
         })
 
-        console.log(res)
-
         return res.data as tag
     } catch {
         throw new Error("failed creating tag")
@@ -209,8 +207,6 @@ export const getUserData = async () : Promise<user> => {
                 'Authorization': 'Bearer ' + jwt?.value,
             }
         })
-
-        console.log(res)
 
         return res.data as user
     } catch {

@@ -56,31 +56,28 @@ const NoteDetails = () => {
         <div className='container-lg my-5'>
             { !loading ? (
                 <>
-                    <div className="row my-2">
+                    <div className="row my-4">
                         <div className="col-12">
                             <Stack direction="row" spacing={1}>
                                 { note?.tags.map((tag, index) => (
-                                    <Chip key={index} label={tag.name} color="primary" variant="outlined" className='mt-1' />
+                                     tag === null ? (
+                                        <></>
+                                     ) : (
+                                        <Chip key={index} label={tag.name} color="primary" variant="outlined" className='mt-1' />
+                                     )
                                 )) }
                             </Stack>
                         </div>
                     </div>
 
-                    <div className="row my-2">
-                        <div className="col-12 ms-auto my-auto">
-                            <Typography variant='body1'>Share your notes by sharing this code:</Typography>
-                            <Typography variant='body1' className='text-decoration-underline'> { note?.link } </Typography>
-                        </div>
-                    </div>
-
-                    <div className="row my-2">
+                    <div className="row my-4">
                         <div className="col-12 col-md-12">
                             <Typography variant='h4' className='my-2'> Note </Typography>
                             <Typography variant='body1'> { note?.content } </Typography>
                         </div>
                     </div>
         
-                    <div className="row my-2">
+                    <div className="row my-4">
                         <div className="col-12 col-md-12">
                             <Typography variant='h4' className='my-2'> Summary </Typography>
                             { note?.summary === null && summary === "" ? (
@@ -95,7 +92,14 @@ const NoteDetails = () => {
                         </div>
                     </div>
 
-                    <div className="row my-2">
+                    <div className="row my-4">
+                        <div className="col-12 ms-auto my-auto">
+                            <Typography variant='h4'>Share your notes by sharing this code:</Typography>
+                            <Typography variant='body1' className='text-decoration-underline'> { note?.link } </Typography>
+                        </div>
+                    </div>
+
+                    <div className="row my-4">
                         <div className="col-12">
                             <Button variant='contained' color="error" onClick={handleDeleteNote}>Delete note</Button>
                         </div>
@@ -103,13 +107,13 @@ const NoteDetails = () => {
                 </>
                 ) : (
                 <>
-                    <div className="row my-2">
+                    <div className="row my-4">
                         <div className="col-12">
                             <Box width={100 + "%"} height={400} display="flex"><Loading /></Box>
                         </div>
                     </div>
 
-                    <div className="row my-2">
+                    <div className="row my-4">
                         <div className="col-12">
                             <Alert severity='error' className='my-3' hidden={errorState}>{errorMessage}</Alert>
                         </div>

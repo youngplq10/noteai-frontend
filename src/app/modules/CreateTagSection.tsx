@@ -22,10 +22,9 @@ const CreateTagSection = () => {
     }, [])
 
     const handleDeleteTag = async (name: string) => {
+        await removeTagByName(name);
         const updatedTags = tags.filter(tag => tag.name !== name);
         setTags(updatedTags);
-
-        removeTagByName(name);
     }
 
     const handleCreateTag = async () => {
