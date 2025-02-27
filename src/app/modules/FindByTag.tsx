@@ -2,11 +2,11 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { getNotesByTag, getUserData } from '../scripts/apicalls';
-import { note, tag, user } from '@/app/scripts/interfaces'
-import { Button, Chip, Link, Stack } from '@mui/material';
-import Loading from '../components/Loading';
-import NoteCard from '../components/NoteCard';
+import { getNotesByTag, getUserData } from '@/app/scripts/apicalls';
+import { tag, user } from '@/app/scripts/interfaces'
+import { Chip, Link, Stack } from '@mui/material';
+import Loading from '@/app/components/Loading';
+import NoteCard from '@/app/components/NoteCard';
 
 const FindByTag = () => {
 
@@ -45,8 +45,8 @@ const FindByTag = () => {
                     <Stack direction="row" spacing={1}>
                         { user?.tags !== null ? (
                             user?.tags.map((tag, index) => (
-                                <Link href={"/dashboard/tag/" + tag.name}>
-                                    <Chip key={index} label={tag.name} color="primary" variant="outlined" className='mt-1' />
+                                <Link key={index} href={"/dashboard/tag/" + tag.name}>
+                                    <Chip label={tag.name} color="primary" variant="outlined" className='mt-1' />
                                 </Link>
                             )) 
                         ) : (

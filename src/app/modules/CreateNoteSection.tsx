@@ -7,6 +7,11 @@ import { createdNoteByAI, fetchTagsAllTagsByUsername, saveNote } from '@/app/scr
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+            
+import FroalaEditor from 'react-froala-wysiwyg';
+
 const CreateNoteSection = () => {
     const [note, setNote] = useState("");
     const [usersTags, setUsersTags] = useState<tag[]>([]);
@@ -80,8 +85,24 @@ const CreateNoteSection = () => {
             <div className="row justify-content-center">
                 <div className="col-10 col-md-8 col-xl-6">
                     <form>
-                        <textarea disabled={loadingState} maxLength={4000} placeholder='Write your note / Write what do you want to be your note about?' className='form-control' id='note' style={{ resize: "none" }} value={loadingState ? "Loading..." : note} onChange={(e) => setNote(e.target.value)} rows={8} />
-                        
+                        <FroalaEditor
+                            tag='textarea' 
+                            model={loadingState ? "Loading..." : note}
+                            onModelChange={(e: string) => setNote(e)}
+                            config={{
+                                placeholderText: 'Write your note / Write what do you want to be your note about?',
+                                toolbarButtons: {
+                                    moreText: {
+                                        buttons: [
+                                            "bold", "italic", "underline"
+                                        ]
+                                    },
+                                },
+                                charCounterCount: true,
+                                charCounterMax: 4000,
+                            }}
+                        />
+
                         <Typography variant='h6' className='mt-2'>Select tags:</Typography>
                         <Stack direction="row" spacing={1}>
                             { usersTags.map((tag, index) => (

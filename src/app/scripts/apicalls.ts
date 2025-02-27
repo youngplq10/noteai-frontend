@@ -111,7 +111,7 @@ export const createdNoteByAI = async (note: string) : Promise<string> => {
         const res = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
-                { role: "developer", content: "Write note about user's criterias. Maximum 200 words. Don't comment. Just give the answer" },
+                { role: "developer", content: "Write note about user's criterias. Maximum 200 words. Don't comment. Just give the answer." },
                 { role: "user", content: note },
             ],
             store: false,

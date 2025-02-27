@@ -28,9 +28,13 @@ const CreateTagSection = () => {
     }
 
     const handleCreateTag = async () => {
-        const newTag = await createTag(name);
-        setTags([...tags, newTag]);
-        setName("");
+        const isExisting = tags.find((tag) => tag.name === name)
+
+        if (!isExisting) {
+            const newTag = await createTag(name);
+            setTags([...tags, newTag]);
+            setName("");
+        }
     }
 
     return (

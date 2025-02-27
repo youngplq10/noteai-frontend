@@ -53,8 +53,8 @@ const Dashboard = () => {
                     <Stack direction="row" spacing={1}>
                         { user?.tags !== null ? (
                             user?.tags.map((tag, index) => (
-                                <Link href={"/dashboard/tag/" + tag.name}>
-                                    <Chip key={index} label={tag.name} color="primary" variant="outlined" className='mt-1' />
+                                <Link key={index} href={"/dashboard/tag/" + tag.name}>
+                                    <Chip label={tag.name} color="primary" variant="outlined" className='mt-1' />
                                 </Link>
                             )) 
                         ) : (

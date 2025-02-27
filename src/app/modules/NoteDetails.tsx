@@ -6,6 +6,7 @@ import { note } from '@/app/scripts/interfaces';
 import { deleteNote, generateSummary, getNoteByLink } from '@/app/scripts/apicalls';
 import { Alert, Box, Button, Chip, Stack, Typography } from '@mui/material';
 import Loading from '../components/Loading';
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 
 const NoteDetails = () => {
     const params = useParams();
@@ -26,6 +27,7 @@ const NoteDetails = () => {
                 const res = await getNoteByLink(note_id);
                 setNote(res);
                 setLoading(false);
+                console.log(res)
             }
         }
         fetchNote()
@@ -73,7 +75,7 @@ const NoteDetails = () => {
                     <div className="row my-4">
                         <div className="col-12 col-md-12">
                             <Typography variant='h4' className='my-2'> Note </Typography>
-                            <Typography variant='body1'> { note?.content } </Typography>
+                            <FroalaEditorView model={note?.content} />
                         </div>
                     </div>
         
