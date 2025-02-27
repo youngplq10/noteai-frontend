@@ -1,51 +1,43 @@
 "use client"
 
-import { Button, Chip, Stack } from '@mui/material'
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { user } from '@/app/scripts/interfaces'
-import { copyNote, getUserData } from '@/app/scripts/apicalls';
-import NoteCard from '@/app/components/NoteCard';
-import Loading from '@/app/components/Loading';
-import Link from 'next/link';
+import { getNotesByTag, getUserData } from '../scripts/apicalls';
+import { note, tag, user } from '@/app/scripts/interfaces'
+import { Button, Chip, Link, Stack } from '@mui/material';
+import Loading from '../components/Loading';
+import NoteCard from '../components/NoteCard';
 
-const Dashboard = () => {
+const FindByTag = () => {
+
+    const params = useParams();
+    const { name } = params;
+
     const [user, setUser] = useState<user>();
     const [loadingNotes, setLoadingNotes] = useState(true);
 
-    const [noteCode, setNoteCode] = useState("");
+    const [tag, setTag] = useState<tag>();
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const res = await getUserData();
-            setUser(res);
+            const resUser = await getUserData();
+            setUser(resUser);
+
+            if (typeof name === "string") {
+                const resTag = await getNotesByTag(name);
+                setTag(resTag)
+            } else {
+                const resTag = await getNotesByTag(name[0]);
+                setTag(resTag)
+            }
+            
             setLoadingNotes(false);
         }
         fetchUserData();
     }, [])
-
-    const handleSubmitCode = async () => {
-        const res = await copyNote(noteCode);
-
-        if (res.length === 15) {
-            window.location.href = "/dashboard/note/" + res;
-        }
-    }
-
+    
     return (
         <div className='container-lg my-5'>
-            <div className="row my-2">
-                <div className="col-auto my-2">
-                    <Button variant='contained' href='/dashboard/create-note'>Create note</Button>
-                </div>
-                <div className="col-auto my-2">
-                    <Button variant='contained' href='/dashboard/create-tag'>Create tag</Button>
-                </div>
-                <div className="col-12 col-md-auto ms-auto d-flex gap-2 my-2">
-                    <input type='text' placeholder='Enter note code' className='form-control' value={noteCode} onChange={(e) => setNoteCode(e.target.value)} />
-                    <Button variant='contained' onClick={handleSubmitCode}>Submit</Button>
-                </div>
-            </div>
-
             <div className="row my-2">
                 { loadingNotes ? (
                     <></>
@@ -70,7 +62,7 @@ const Dashboard = () => {
                         <Loading />
                     </div>
                 ) : (
-                    user?.notes.map((note, index) => (
+                    tag?.notes.map((note, index) => (
                         <div className="col-12 col-md-6 col-lg-4 col-xl-3 my-3" key={index}>
                             <NoteCard tags={note.tags} content={note.content} link={note.link} />
                         </div>
@@ -81,4 +73,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default FindByTag

@@ -248,3 +248,19 @@ export const deleteNote = async (code: string) : Promise<boolean> => {
         return false;
     }
 }
+
+export const getNotesByTag = async (name: string) : Promise<tag> => {
+    try {
+        const { username, jwt } = await getAllCookies();
+
+        const res = await axios.get(process.env.NEXT_PUBLIC_API + "/auth/tag/" + name + "/" + username?.value, {
+            headers: {
+                'Authorization': 'Bearer ' + jwt?.value,
+            }
+        })
+
+        return res.data as tag
+    } catch {
+        throw new Error("error in fetching notes by tag")
+    }
+}
