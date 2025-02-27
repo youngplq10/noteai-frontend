@@ -1,18 +1,22 @@
 "use client"
 
-import { Button, Chip, Stack, Typography } from '@mui/material'
+import { Box, Button, Chip, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { tag } from '@/app/scripts/interfaces'
 import { createTag, fetchTagsAllTagsByUsername, removeTagByName } from '@/app/scripts/apicalls'
+import Loading from '../components/Loading'
 
 const CreateTagSection = () => {
     const [tags, setTags] = useState<tag[]>([]);
     const [name, setName] = useState("");
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const fetchTags = async () => {
-            const tags = await fetchTagsAllTagsByUsername()
-            setTags(tags)
+            const tags = await fetchTagsAllTagsByUsername();
+            setTags(tags);
+            setLoading(false);
         }
         fetchTags()
     }, [])
@@ -34,11 +38,15 @@ const CreateTagSection = () => {
         <div className='container-lg my-5'>
             <div className="row my-5">
                 <Typography variant='h5' className='my-2'>Already existing tags:</Typography>
-                <Stack direction="row" spacing={1}>
-                    { tags.map((tag, index) => (
-                        <Chip key={index} label={tag.name} color="primary" variant="outlined" onDelete={() => handleDeleteTag(tag.name)} />
-                    )) }
-                </Stack>
+                { loading ? (
+                    <Box width={200} height={40} display="flex"><Loading /></Box>
+                ) : (
+                    <Stack direction="row" spacing={1}>
+                        { tags.map((tag, index) => (
+                            <Chip key={index} label={tag.name} color="primary" variant="outlined" onDelete={() => handleDeleteTag(tag.name)} />
+                        )) }
+                    </Stack>
+                ) }
             </div>
             <div className="row justify-content-center">
                 <div className="col-10 col-md-6 col-xl-4">

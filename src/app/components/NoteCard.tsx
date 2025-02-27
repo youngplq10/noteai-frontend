@@ -13,10 +13,10 @@ const NoteCard = ({ tags, content, link } : { tags: tag[], content: string, link
                             <Chip label={tag.name} variant='outlined' color='primary' key={index} />
                         )) }
                     </Stack>
-                    <Typography variant='subtitle1'>{ content.length < 150 ? (
+                    <Typography variant='subtitle1'>{ content.length < 200 ? (
                         content
                     ) : (
-                        content.slice(0, 150) + "..." 
+                        content.slice(0, 200) + "..." 
                     ) }</Typography>
                     
                 </CardContent>
