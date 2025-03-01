@@ -43,7 +43,7 @@ const FindByTag = () => {
                     <></>
                 ) : (
                     <Stack direction="row" spacing={1}>
-                        { user?.tags !== null ? (
+                        { user?.tags !== null && user?.tags !== undefined ? (
                             user?.tags.map((tag, index) => (
                                 <Link key={index} href={"/dashboard/tag/" + tag.name}>
                                     <Chip label={tag.name} color="primary" variant="outlined" className='mt-1' />
